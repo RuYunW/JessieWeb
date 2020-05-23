@@ -1,0 +1,71 @@
+{% load staticfiles %}
+
+{% if upload == False %}
+    <script type="text/javascript">
+        alert("{{ error_message }}");
+        {#window.location.href = "index.html";#}
+    </script>
+{% elif upload == True %}
+    <script type="text/javascript">
+        alert("视频上传成功！");
+        {#window.location.href = "/edu_admin/Adm_manage_courses.html";#}
+    </script>
+{% else %}
+{% endif %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>宋佳的毕设小站</title>
+</head>
+<body>
+
+{#<video width="320" height="240" controls="controls">#}
+{#    <source src="/static/video/color.mp4" type="video/mp4">#}
+{#    您的浏览器不支持 video 标签。#}
+{#</video>#}
+
+
+{#视频#}
+<div style="position: relative; z-index: auto;">
+    <div style="left: 460px; top: 328px; position: absolute; display: block; z-index: 1; ">
+        <video id="my-video" class="video-js" controls preload="auto" width="870" height="403" autoplay="autoplay"
+               loop="loop">
+            <source src="{% static 'video/out.mp4' %}" type='video/mp4'>
+            <source src="{% static 'video/out.webm' %}" type='video/webm'>
+        </video>
+    </div>
+    <div style="left: 460px; top: 328px; position: absolute; display: block; z-index: 2; ">
+        <video id="my-video" class="video-js" controls preload="auto" height="403" autoplay="autoplay" loop="loop">
+            <source src="{% static 'video/2186017790D39AA66E816AFBDD43F1B4.mp4' %}" type='video/mp4'>
+            {#        <source src="{% static 'video/color.webm' %}" type='video/webm'>#}
+        </video>
+    </div>
+    <video id="my-video" class="video-js" controls preload="auto" width="1918" height="1080" autoplay="autoplay"
+           loop="loop">
+        <source src="{% static 'video/color.mp4' %}" type='video/mp4'>
+        <source src="{% static 'video/color.webm' %}" type='video/webm'>
+    </video>
+
+
+</div>
+
+{#上传文件#}
+<form enctype="multipart/form-data" action="." method="post" role="form">{% csrf_token %}
+    <div class="form-group">
+        <input type="file" id="inputfile" name="myfile">
+        <input type="submit" value="上传" name="file_button">
+    </div>
+</form>
+
+{#// 穿透父级容器的 z-index#}
+<!-- 100 * 100 的深蓝色 Block -->
+<div class="block blue" style="position: relative; z-index: auto;">
+    <!-- 50 * 50 的红色 Block -->
+    <div class="small red" style="position: relative; z-index: -1;"></div>
+</div>
+
+
+</body>
+</html>
