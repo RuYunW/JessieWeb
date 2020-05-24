@@ -7,14 +7,14 @@ def eclosion(pic, top=25, bottom=25, left=25, right=25, delta=100):
     # print(pic.shape)  # (20, 40, 3)
     for i in range(top):  # row
         for j in range(pic.shape[1]):  # pixel
-            v = int(delta-i*delta/top)
+            v = int(delta - i * delta / top)
             r = pic[i][j][0]
             g = pic[i][j][1]
             b = pic[i][j][2]
 
-            r = (r+v) if (r+v)<255 else 255
-            g = (g+v) if (g+v)<255 else 255
-            b = (b+v) if (b+v)<255 else 255
+            r = (r + v) if (r + v) < 255 else 255
+            g = (g + v) if (g + v) < 255 else 255
+            b = (b + v) if (b + v) < 255 else 255
 
             pic[i][j][0] = r
             pic[i][j][1] = g
@@ -22,29 +22,29 @@ def eclosion(pic, top=25, bottom=25, left=25, right=25, delta=100):
 
     for i in range(bottom):  # row
         for j in range(pic.shape[1]):  # pixel
-            v = int(delta-i*delta/bottom)
-            r = pic[pic.shape[0]-1-i][j][0]
-            g = pic[pic.shape[0]-1-i][j][1]
-            b = pic[pic.shape[0]-1-i][j][2]
+            v = int(delta - i * delta / bottom)
+            r = pic[pic.shape[0] - 1 - i][j][0]
+            g = pic[pic.shape[0] - 1 - i][j][1]
+            b = pic[pic.shape[0] - 1 - i][j][2]
 
-            r = (r+v) if (r+v)<255 else 255
-            g = (g+v) if (g+v)<255 else 255
-            b = (b+v) if (b+v)<255 else 255
+            r = (r + v) if (r + v) < 255 else 255
+            g = (g + v) if (g + v) < 255 else 255
+            b = (b + v) if (b + v) < 255 else 255
 
-            pic[pic.shape[0]-1-i][j][0] = r
-            pic[pic.shape[0]-1-i][j][1] = g
-            pic[pic.shape[0]-1-i][j][2] = b
+            pic[pic.shape[0] - 1 - i][j][0] = r
+            pic[pic.shape[0] - 1 - i][j][1] = g
+            pic[pic.shape[0] - 1 - i][j][2] = b
 
     for i in range(pic.shape[0]):
         for j in range(left):  # cow
-            v = int(delta-j*delta/left)
+            v = int(delta - j * delta / left)
             r = pic[i][j][0]
             g = pic[i][j][1]
             b = pic[i][j][2]
 
-            r = (r+v) if (r+v)<255 else 255
-            g = (g+v) if (g+v)<255 else 255
-            b = (b+v) if (b+v)<255 else 255
+            r = (r + v) if (r + v) < 255 else 255
+            g = (g + v) if (g + v) < 255 else 255
+            b = (b + v) if (b + v) < 255 else 255
 
             pic[i][j][0] = r
             pic[i][j][1] = g
@@ -52,25 +52,24 @@ def eclosion(pic, top=25, bottom=25, left=25, right=25, delta=100):
 
     for i in range(pic.shape[0]):  # pixel_line
         for j in range(right):  # cow
-            v = int(delta-j*delta/right)
-            r = pic[i][pic.shape[1]-1-j][0]
-            g = pic[i][pic.shape[1]-1-j][1]
-            b = pic[i][pic.shape[1]-1-j][2]
+            v = int(delta - j * delta / right)
+            r = pic[i][pic.shape[1] - 1 - j][0]
+            g = pic[i][pic.shape[1] - 1 - j][1]
+            b = pic[i][pic.shape[1] - 1 - j][2]
 
-            r = (r+v) if (r+v)<255 else 255
-            g = (g+v) if (g+v)<255 else 255
-            b = (b+v) if (b+v)<255 else 255
+            r = (r + v) if (r + v) < 255 else 255
+            g = (g + v) if (g + v) < 255 else 255
+            b = (b + v) if (b + v) < 255 else 255
 
-            pic[i][pic.shape[1]-1-j][0] = r
-            pic[i][pic.shape[1]-1-j][1] = g
-            pic[i][pic.shape[1]-1-j][2] = b
+            pic[i][pic.shape[1] - 1 - j][0] = r
+            pic[i][pic.shape[1] - 1 - j][1] = g
+            pic[i][pic.shape[1] - 1 - j][2] = b
 
     return pic
 
 
-def video_process():
-
-    cap = cv2.VideoCapture('../media/new.mp4')  # 定义视频
+def video_process(media_path, app_path):
+    cap = cv2.VideoCapture(media_path + '/new.mp4')  # 定义视频
 
     # 获得码率及尺寸
     fps = cap.get(cv2.CAP_PROP_FPS)
@@ -80,34 +79,31 @@ def video_process():
     # size = (400, 200)
     size = (540, 250)
     # fourcc = cv2.VideoWriter_fourcc(*'XVID')
-    out = cv2.VideoWriter('../media/out.mp4', cv2.VideoWriter_fourcc(*"mp4v"), fps, size)
+    out = cv2.VideoWriter(media_path + 'out.mp4', cv2.VideoWriter_fourcc(*"H264"), fps, size)
 
     success, frame = cap.read()
 
-    xmlfile_face = '../videoshow/cv_model/haarcascade_frontalface_default.xml'
-    xmlfile_eye = '../videoshow/cv_model/haarcascade_eye.xml'
-    xmlfile_mouth = '../videoshow/cv_model/haarcascade_smile.xml'
+    xmlfile_face = app_path+'cv_model/haarcascade_frontalface_default.xml'
+    xmlfile_eye = app_path+'cv_model/haarcascade_eye.xml'
+    xmlfile_mouth = app_path+'cv_model/haarcascade_smile.xml'
 
     face_cascade = cv2.CascadeClassifier(xmlfile_face)
     eye_cascade = cv2.CascadeClassifier(xmlfile_eye)
     mouth_cascade = cv2.CascadeClassifier(xmlfile_mouth)
 
     window_size = 50
+
     while success:
         # print(666)
 
-
         # cv2.waitKey(1000 / int(fps))  # 延迟
-
 
         success, frame = cap.read()  # 获取下一帧
         # continue
         ori_frame = frame
-
-
         # 检测人脸
         faces = face_cascade.detectMultiScale(frame, scaleFactor=1.15, minNeighbors=8, minSize=(20, 20),
-                                              maxSize=(200, 200))
+                                              maxSize=(500, 500))
 
         eye_xyz = []
         mouth_xyz = []
@@ -119,7 +115,7 @@ def video_process():
                 lower_face = frame[int(y + h * 0.4):y + h, x:x + w]  # 脸下半部分
 
                 eyes = eye_cascade.detectMultiScale(upper_face, scaleFactor=1.15, minNeighbors=8, minSize=(20, 20),
-                                                    maxSize=(300, 300))
+                                                    maxSize=(500, 500))
                 for (ex, ey, ew, eh) in eyes:  # 框出每个眼睛
                     # img = cv2.rectangle(frame, (x+ex, y+ey), (x+ex+ew, y+ey+eh), (255, 255, 0), 2)  # 在帧上绘制
                     eye_xyz.append(eclosion(
@@ -128,7 +124,7 @@ def video_process():
                         left=int(window_size / 4), right=int(window_size / 4)))
 
                 mouths = mouth_cascade.detectMultiScale(lower_face, scaleFactor=1.15, minNeighbors=3, minSize=(20, 20),
-                                                        maxSize=(400, 400))
+                                                        maxSize=(500, 500))
                 for (mx, my, mw, mh) in mouths:  # 框出每个嘴巴
                     # img = cv2.rectangle(frame, (x+mx, int(y+h*0.4+my)), (x+mx+mw, int(y+h*0.4+my+mh)), (0, 0, 255), 2)
                     mouth_xyz.append(eclosion(
@@ -178,9 +174,10 @@ def video_process():
         # write_zdy_pic = zdy_pic[0:400, 0:200]
         # print(write_zdy_pic.shape)
         out.write(zdy_pic)  # 写视频帧
-        cv2.imshow("Oto Video", zdy_pic)  # 显示
+        # cv2.imshow("Oto Video", zdy_pic)  # 显示
+    # print(666)
+    return True
 # cap.release()
 # out.release()
 
-
-video_process()
+# video_process()
